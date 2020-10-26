@@ -1,0 +1,24 @@
+{
+  "name": "pharmacy-projet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "node-sass": "^4.14.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "sass": "node-sass -w scss/style.scss -o css ",
+    "concat": "concat -o css/concat.css  css/style.css",
+    "compress": "node-sass css/prefix.css css/style.css  --output-style compressed"  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khadijaezzayany/Pharmacy-projet.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khadijaezzayany/Pharmacy-projet/issues"
+  },
+  "homepage": "https://github.com/khadijaezzayany/Pharmacy-projet#readme"
+}
