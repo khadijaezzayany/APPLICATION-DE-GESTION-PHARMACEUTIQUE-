@@ -1,4 +1,6 @@
 <?php
+require 'config.php';
+
 // script for login :::::::::::::::::::::::::::::::::::::
     session_start();
     if(isset($_POST['valid'])){
@@ -15,7 +17,7 @@
             
             if ($row && ($_POST['password'] === $row['password']))
             {
-                header("LOCATION:index.php"); 
+                header("LOCATION:dashboard.php"); 
             
             }else{
                 $_SESSION['message']= " Username ou Mot de passe est non Validé !";

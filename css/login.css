@@ -1,0 +1,27 @@
+.login {
+  font-family: system-ui;
+  text-align: center;
+  margin-top: 10%; }
+  .login h1 {
+    color: #33B9B2;
+    font-size: 60px; }
+  .login form input[type="text"],
+  .login form input[type="password"] {
+    padding: 15px 20px;
+    margin: 10px auto;
+    width: 20%;
+    border: none;
+    border-bottom: 1.5px solid #707070; }
+  .login form input[type="submit"] {
+    width: 18%;
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;
+    background-color: #33B9B2;
+    color: #fff;
+    padding: 10px 5px;
+    margin-top: 25px;
+    margin-left: 4%; }
+  .login a {
+    font-size: 40px;
+    color: #33B9B2; }

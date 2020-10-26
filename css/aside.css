@@ -1,0 +1,26 @@
+body {
+  font-family: system-ui;
+  margin: auto; }
+
+aside {
+  display: inline-block;
+  background-color: #33B9B2;
+  height: 100vh;
+  padding-right: 3%;
+  text-align: center; }
+  aside ul {
+    list-style: none; }
+    aside ul li {
+      margin-top: 20%;
+      margin-bottom: 20; }
+      aside ul li a {
+        text-decoration: none;
+        color: white;
+        font-size: 30px;
+        position: relative; }
+  aside hr {
+    border: none;
+    background-color: white;
+    height: 1px;
+    width: 152%;
+    margin-left: -40px; }
