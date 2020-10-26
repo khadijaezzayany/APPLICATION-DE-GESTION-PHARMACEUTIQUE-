@@ -12,10 +12,10 @@
     <div class="header">
         <div class="header__nav">
             <ul>
-                <li><a href="">Home</a></li>
-                <li><a href="">News</a></li>
-                <li><a href="">About Us</a></li>
-                <li><a href="">Login</a></li>
+                <li><a href="index.php">Home</a></li>
+                <li><a href="login.php">News</a></li>
+                <li><a href="login.php">About Us</a></li>
+                <li><a href="login.php">Login</a></li>
             </ul>
         </div>
         <h1>PHARMACY <br> <span> Projet</span></h1>
@@ -23,7 +23,7 @@
             la composition et la mise en page avant impression. Le Lorem
             Ipsum est le faux texte standard de l'imprimerie depuis
             les années 1500,</p>
-        <a id="but" href="">LOGIN</a>
+        <a id="but" href="login.php">LOGIN</a>
     </div>
 
 </body>
