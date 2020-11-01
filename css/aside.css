@@ -3,7 +3,7 @@ body {
   margin: auto; }
 
 aside {
-  display: inline-block;
+  float: left;
   background-color: #33B9B2;
   height: 100vh;
   padding-right: 3%;

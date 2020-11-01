@@ -1,0 +1,22 @@
+.dashboard {
+  text-align: center; }
+  .dashboard h1 {
+    margin-top: 0px;
+    color: #33B9B2;
+    margin-bottom: 3%; }
+  .dashboard table {
+    border-collapse: collapse;
+    width: 70%;
+    margin: auto; }
+  .dashboard th, .dashboard td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #bbb8b8; }
+  .dashboard #delete {
+    color: red;
+    text-decoration: none; }
+  .dashboard #edit {
+    color: #41d641;
+    text-decoration: none; }
+  .dashboard tr:hover {
+    background-color: #f5f5f5; }

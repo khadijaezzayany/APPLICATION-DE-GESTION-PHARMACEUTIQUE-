@@ -29,4 +29,52 @@ require 'config.php';
 
     }
 
-?>
+
+
+// function for filter input ::::::::::::::::::::::::::::::::::::
+ function filter_data($data){
+     $date = trim($data);
+     $date = htmlspecialchars($data);
+     $date = stripcslashes($data);
+     
+ }
+
+
+// function for  add new Médicament ::::::::::::::::::::::::::::::::::::
+
+    if(isset($_POST['médajout'])){
+        
+        $médCode = filter_data($_POST['médCode']);
+        $médLib = filter_data($_POST['médLib']);
+        $médPrix = filter_data($_POST['médPrix']);
+        
+        $stmt =$db->prepare("INSERT INTO médicament (médCode, médLib, médPrix)
+        VALUES (?, ?, ?)");
+        
+        $stmt->bindParam(':médCode',$médCode);
+        $stmt->bindParam(':médLib',$médLib);
+        $stmt->bindParam(':médPrix',$médPrix);
+        $stmt->execute();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+    ?>

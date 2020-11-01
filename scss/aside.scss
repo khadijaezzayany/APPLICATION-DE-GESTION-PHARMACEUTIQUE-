@@ -1,12 +1,14 @@
 body{    font-family: system-ui;
     margin: auto;
 }
-aside{
-    display: inline-block;
+
+    aside{
+    float: left;
     background-color: #33B9B2;
     height: 100vh;
     padding-right: 3%;
     text-align: center;
+    
 
      ul{
          list-style: none;
