@@ -70,7 +70,6 @@
                         <td><?= $row['fourVille']; ?></td>
                         <td><?= $row['fourTélé']; ?></td>
                         <td>
-
                             <a href="fournisseur.php?edit=<?= $row['fourCode'];?>" id="edit">Modifier</a> |
                             <a id="delete" href="fournisseur.php?delete=<?= $row['fourCode'] ;?>"
                                 onclick="return confirm ('Do you want delete this fournisseur?');">Supprimer</a>
