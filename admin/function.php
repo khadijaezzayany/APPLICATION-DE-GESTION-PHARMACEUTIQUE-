@@ -50,13 +50,9 @@ session_start();
         $médLib = filter_data($_POST['médLib']);
         $médPrix = filter_data($_POST['médPrix']);
         
-        $stmt =$db->prepare("INSERT INTO médicament (médCode, médLib, médPrix)
+        $stmt =$db->prepare("INSERT INTO médicament (médLib, médPrix,famiCode )
         VALUES (?, ?, ?)");
         
-
-        $médCode= "ali";
-        $médLib= "ali";
-        $médPrix= "ali";
         
 
         
@@ -71,7 +67,7 @@ session_start();
 
     // function for  add new Fournisseur ::::::::::::::::::::::::::::::::::::
 
-        $update = false;
+        $change = false;
         $fourCode="";
         $fourNom="";
         $fourAdrs="";
@@ -134,32 +130,58 @@ session_start();
                     $fourVille=$row['fourVille'];
                     $fourTélé=$row['fourTélé'];
 
-                    $update = true;     // true ou false selon selon le choix : form vide  ou   recuperer les details de fournisseur in input
+                    $change = true;     // true ou false selon selon le choix : form vide  ou   recuperer les details de fournisseur in input
         
     }
     
                 
 }
             // edit details of foutnisseur
-            if(isset($_POST[update])){
+            // if(isset($_POST[change])){
                 
-                    $fourCode = $_POST['fourCode'];
-                    $fourNom = $_POST['fourNom'];
-                    $fourAdrs = $_POST['fourAdrs'];
-                    $fourVille = $_POST['fourVille'];
-                    $fourTélé = $_POST['fourTélé'];
+                    // $fourCode = $_POST['fourCode'];
+                    // $fourNom = $_POST['fourNom'];
+                    // $fourAdrs = $_POST['fourAdrs'];
+                    // $fourVille = $_POST['fourVille'];
+                    // $fourTélé = $_POST['fourTélé'];
 
-                    $sql = "UPDATE fournisseur SET fourNom=?, fourAdrs=?, fourVille=?, fourTélé=? WHERE fourCode=?";
+            //         $sql = "UPDATE fournisseur SET fourNom=?, fourAdrs=?, fourVille=?, fourTélé=? WHERE fourCode=$fourCode";
 
-                    $stmt = $db->prepare($sql);
+            //         $stmt = $db->prepare($sql);
 
-                    $stmt->bindParam(1, $fourNom);
-                    $stmt->bindParam(2, $fourAdrs);
-                    $stmt->bindParam(3, $fourVille);
-                    $stmt->bindParam(4, $fourTélé);
+            //         $stmt->bindParam(1, $fourNom);
+            //         $stmt->bindParam(2, $fourAdrs);
+            //         $stmt->bindParam(3, $fourVille);
+            //         $stmt->bindParam(4, $fourTélé);
 
-                    $stmt->execute();
-                    header('location:fournisseur.php');
-            }
+            //         $stmt->execute();
+            //         header('location:fournisseur.php');
+            // }
+
+            if(isset($_POST['change'])){
+                $fourCode=$_GET['edit'];
+                $fourNom = $_POST['fourNom'];
+                $fourAdrs = $_POST['fourAdrs'];
+                $fourVille = $_POST['fourVille'];
+                $fourTele = $_POST['fourTélé'];  
+                            
+                            $stmt = $db->prepare("UPDATE fournisseur SET fourNom = :fourNom, fourAdrs = :fourAdrs, fourVille = :fourVille ,fourTélé = :fourTele  WHERE fourCode=:fourCode");
+                            $stmt -> execute(array(
+                                    'fourCode'=>"$fourCode",
+                                    'fourNom'=>"$fourNom",
+                                    'fourAdrs'=>"$fourAdrs",
+                                    'fourVille'=>"$fourVille",
+                                    'fourTele'=>"$fourTele",
+
+        
+                                 
+                            ));
+                               
+                                // $err = "Your image path is updated successfuly";
+                                header("location: fournisseur.php");
+            
+                 }
+            
+            
 
     ?>

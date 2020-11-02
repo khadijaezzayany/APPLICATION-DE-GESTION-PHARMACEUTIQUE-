@@ -30,8 +30,8 @@
                 <input type=" text" name="fourVille" placeholder="Ville" value="<?= $fourVille; ?>" required>
                 <input type="text" name="fourTélé" placeholder="Téléphone" value="<?= $fourTélé; ?>" required>
 
-                <?php if($update==true) {?>
-                <input type="submit" name="update" value="Modifier">
+                <?php if($change==true) {?>
+                <input type="submit" name="change" value="Modifier">
                 <?php } else{?>
                 <input type="submit" name="ajout-fournisseur" value="Ajouter">
                 <?php } ?>
