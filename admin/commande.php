@@ -39,6 +39,10 @@
 
                 <input type="text" name="quantité" id="" placeholder=" Quantité ">
 
+                <input type="text" name="commNum" id="" placeholder=" Numéro de commande ">
+
+                <input type="text" name="commDate" id="" placeholder="La date ">
+
                 <input type="text" name="commPrix" id="" placeholder=" Prix ">
 
                 <input type="submit" name="commandajout" id="" value="Ajouter">

@@ -1,3 +1,4 @@
+<?php require 'function.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,32 +19,25 @@
             <?php
         include 'aside.php'
          ?>
-            <h1>Ajouter Fournisseurs</h1>
-            <form action="function.php">
+            <h1>Ajouter Fournisseur</h1>
+            <form action="" method="post">
 
-                <input type="text" name="fourCode" id="" placeholder="Code fournisseur ">
+                <input type="text" name="fourNom">
+                <input type="text" name="fourAdrs">
+                <input type=" text" name="fourVille">
+                <input type="text" name="fourTélé">
 
-                <input type="text" name="fourNom" id="" placeholder="Nom ">
 
-                <!-- <input type="text" name="" id=""> -->
-                <!-- <select name="cars" id="cars">
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                </select> -->
+                <input type="submit" name="ajout-fournisseur">
 
-                <input type="text" name="fourAdrs" id="" placeholder="Adresse ">
 
-                <input type="text" name="fourVille" id="" placeholder=" Ville">
 
-                <input type="text" name="fourTél id="" placeholder=" Télèphone">
 
-                <input type="submit" name="fourajout" id="" value="Ajouter">
-                <br>
+
             </form>
+
             <br>
-            <h1>Liste Fournisseur</h1>
+            <h1>Liste Fournisseurs</h1>
 
 
             <table>

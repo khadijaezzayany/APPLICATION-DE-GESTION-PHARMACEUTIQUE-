@@ -1,3 +1,4 @@
+<?php require 'function.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,28 +20,42 @@
         include 'aside.php'
          ?>
             <h1>Ajouter médicament</h1>
-            <form action="function.php">
+            <form action="" method="post">
 
                 <input type="text" name="médCode" id="" placeholder="Code médicament">
 
                 <input type="text" name="médLib" id="" placeholder="Libellé médicament">
 
-                <!-- <input type="text" name="" id=""> -->
-                <!-- <select name="cars" id="cars">
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                </select> -->
-
-                <input type="text" name="stockNun" id="" placeholder="Numérode stock">
-
-                <input type="text" name="médPrix" id="" placeholder=" Prix DH">
 
 
+                <select class="form_item form_item--cat" name="cat" required>
+                    <option value="">--choisir une famille--</option>
+                    <!--------php --------------------->
+                    <?php
 
-                <input type="submit" name="médajout" id="" value="Ajouter">
-                <br>
+                    // get category from db
+                    $sth=$db->query('SELECT famiDési FROM famille ');
+                    while ($row = $sth->fetch())
+                {
+                    ?>
+                    <option value=""><?= $row['famiDési']; ?></option>
+                    <?php
+                }
+
+                    ?>
+                    <!--------php --------------------->
+
+
+
+
+                    <input type="text" name="stockNun" id="" placeholder="Numéro de stock">
+
+                    <input type="text" name="médPrix" id="" placeholder=" Prix DH">
+
+
+
+                    <input type="submit" name="médajout" id="" value="Ajouter">
+                    <br>
             </form>
             <br>
             <h1>Liste médicaments</h1>
