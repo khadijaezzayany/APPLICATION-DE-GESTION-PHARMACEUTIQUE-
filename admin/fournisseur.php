@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/aside.css">
     <title>Document</title>
@@ -21,14 +22,19 @@
          ?>
             <h1>Ajouter Fournisseur</h1>
             <form action="" method="post">
-
-                <input type="text" name="fourNom">
-                <input type="text" name="fourAdrs">
-                <input type=" text" name="fourVille">
-                <input type="text" name="fourTélé">
+                <input type="hidden" name='fourCode' value='<?= $fourCode; ?>'>
 
 
-                <input type="submit" name="ajout-fournisseur">
+                <input type="text" name="fourNom" placeholder="Nom" value="<?= $fourNom; ?>" required>
+                <input type="text" name="fourAdrs" placeholder="Adresse" value="<?= $fourAdrs; ?>" required>
+                <input type=" text" name="fourVille" placeholder="Ville" value="<?= $fourVille; ?>" required>
+                <input type="text" name="fourTélé" placeholder="Téléphone" value="<?= $fourTélé; ?>" required>
+
+                <?php if($update==true) {?>
+                <input type="submit" name="update" value="Modifier">
+                <?php } else{?>
+                <input type="submit" name="ajout-fournisseur" value="Ajouter">
+                <?php } ?>
 
 
 
@@ -52,19 +58,26 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php
+                $stmt=$db->query('SELECT * FROM fournisseur');
+                while ($row = $stmt->fetch())
+                    {
+                ?>
                     <tr>
-                        <td>123</td>
-                        <td>ali</td>
-                        <td>N 123</td>
-                        <td>agadir</td>
-                        <td>9092787298</td>
+                        <td><?= $row['fourCode']; ?></td>
+                        <td><?= $row['fourNom']; ?></td>
+                        <td><?= $row['fourAdrs']; ?></td>
+                        <td><?= $row['fourVille']; ?></td>
+                        <td><?= $row['fourTélé']; ?></td>
                         <td>
 
-                            <a href="#" id="edit">Edit</a> |
-                            <a href="#" id="delete">Delete</a>
+                            <a href="fournisseur.php?edit=<?= $row['fourCode'];?>" id="edit">Modifier</a> |
+                            <a id="delete" href="fournisseur.php?delete=<?= $row['fourCode'] ;?>"
+                                onclick="return confirm ('Do you want delete this fournisseur?');">Supprimer</a>
                         </td>
 
                     </tr>
+                    <?php }?>
                 </tbody>
             </table>
 

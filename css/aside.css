@@ -6,6 +6,7 @@ aside {
   float: left;
   background-color: #33B9B2;
   height: 100vh;
+  padding-bottom: 50%;
   padding-right: 3%;
   text-align: center; }
   aside ul {
