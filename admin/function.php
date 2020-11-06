@@ -41,30 +41,109 @@ session_start();
      
  }
 
-
+//MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 // function for  add new Médicament ::::::::::::::::::::::::::::::::::::
 
-    if(isset($_POST['médajout'])){
-        
-        $médCode = filter_data($_POST['médCode']);
-        $médLib = filter_data($_POST['médLib']);
-        $médPrix = filter_data($_POST['médPrix']);
-        
-        $stmt =$db->prepare("INSERT INTO médicament (médLib, médPrix,famiCode )
-        VALUES (?, ?, ?)");
-        
-        
+        // $change = false;
+        $medCode="";
+        $famiCode="";
+        $medNom="";
+        $medPrix="";
+        $medQuan="";
 
+
+       if(isset($_POST["ajout-medicament"])){
+        $medNom = $_POST['medNom'];
+        $famiCode = $_POST['famiCode'];
+        $medPrix = $_POST['medPrix'];
+        $medQuan = $_POST['medQuan'];
+
+        $sql = "INSERT INTO medicament (medNom, famiCode, medPrix, medQuan) VALUES (?, ?, ?, ?)";
+
+        $stmt = $db->prepare($sql);
         
-        $stmt->bindParam(1,$médCode);
-        $stmt->bindParam(2,$médLib);
-        $stmt->bindParam(3,$médPrix);
+        $stmt->bindParam(1, $medNom);
+        $stmt->bindParam(2, $famiCode);
+        $stmt->bindParam(3, $medPrix);
+        $stmt->bindParam(4, $medQuan);
+        
         $stmt->execute();
+        header('location: dashboard.php');
 
-        header("dashboard.php");
-    }
+        // exit;
+        // $_SESSION['response']="Successfully inserted to the databese";
+        // $_SESSION['rest_type']="success";
+       }
 
 
+
+
+
+
+
+         // function for  Delete  médicament ::::::::::::::::::::::::::::::::::::
+            if(isset($_GET['deletee'])){
+                $medCode=$_GET['deletee'];
+        
+                $stmt=$db->prepare('DELETE FROM medicament WHERE medCode= :medCode ')  ;
+                $stmt->bindParam(':medCode',$medCode);
+                $stmt->execute();
+                header('location: dashboard.php');
+                // $_SESSION['response']="Successfully Deleted!";
+                // $_SESSION['res_type']="danger";
+            }
+
+
+
+         // function for  Edit  médicament ::::::::::::::::::::::::::::::::::::
+
+            if(isset($_GET['editt'])){
+    
+                $id = $_GET['editt'];
+            
+                // select the medicament a modifier selon son id et recuperer les details de ce post
+                $sth=$db->prepare('SELECT * FROM medicament INNER JOIN famille ON medicament.famiCode = famille.famiCode  WHERE medCode = :medCode ')  ;
+                $sth->bindParam(':medCode',$medCode);
+                $sth->execute();
+                while ($row = $sth->fetch())
+                {
+                    $medCode=$row['medCode'];
+                    $medNom=$row['medNom'];
+                    $famiCode=$row['famiCode'];
+                    $medPrix=$row['medPrix'];
+                    $medQuan=$row['medQuan'];
+            
+                    $update = true;     // true ou false selon selon le choix : form vide  ou   recuperer les details de projet in input
+                    
+                }
+            
+                
+            
+            
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+    //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     // function for  add new Fournisseur ::::::::::::::::::::::::::::::::::::
 
         $change = false;
