@@ -11,7 +11,8 @@
   .dashboard th, .dashboard td {
     padding: 8px;
     text-align: left;
-    border-bottom: 1px solid #bbb8b8; }
+    border-bottom: 1px solid #bbb8b8;
+    text-align: center; }
   .dashboard #delete {
     color: red;
     text-decoration: none; }

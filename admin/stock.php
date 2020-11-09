@@ -1,3 +1,4 @@
+<?php require 'function.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,25 +20,17 @@
         include 'aside.php'
          ?>
             <h1>Ajouter Stock</h1>
-            <form action="function.php">
+            <form action="" method="post">
 
-                <input type="text" name="stockCode" id="" placeholder="Numéro de stock ">
+                <input type="hidden" name='stockCode' value="<?= $stockCode; ?>">
 
-                <input type="text" name="quantité" id="" placeholder="Quantité ">
+                <input type="text" name="stockNom" id="" placeholder="Nom de stock " required>
 
-                <!-- <input type="text" name="" id=""> -->
-                <!-- <select name="cars" id="cars">
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                </select> -->
+                <input type="text" name="stockQuan" id="" placeholder="Quantité " required>
 
-                <input type="text" name="médCode" id="" placeholder="Code médicament ">
 
-                <input type="text" name="quantité" id="" placeholder=" Quantité médicament">
 
-                <input type="submit" name="stockajout" id="" value="Ajouter">
+                <input type="submit" name="ajout-stock" id="" value="Ajouter">
                 <br>
             </form>
             <br>
@@ -47,26 +40,26 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Numéro de stock </th>
+                        <th>Code de stock </th>
+                        <th>Nom de stock</th>
                         <th>Quantité</th>
-                        <th>Code médicament</th>
-                        <th>Quantité médicament</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <?php
+                    $stmt=$db->query('SELECT * FROM stock');
+                    while ($row = $stmt->fetch())
+                    {
+                    ?>
                     <tr>
-                        <td>123</td>
-                        <td>1</td>
-                        <td>123</td>
-                        <td>33</td>
-                        <td>
-
-                            <a href="#" id="edit">Edit</a> |
-                            <a href="#" id="delete">Delete</a>
-                        </td>
-
+                        <td><?= $row['stockCode']; ?></td>
+                        <td><?= $row['stockNom']; ?></td>
+                        <td><?= $row['stockQuan']; ?></td>
+                        <td> <a id="delete" href="stock.php?deletestock=<?= $row['stockCode'] ;?>"
+                                onclick="return confirm ('Do you want delete this stock?');">Supprimer</a></td>
                     </tr>
+                    <?php } ?>
                 </tbody>
             </table>
 

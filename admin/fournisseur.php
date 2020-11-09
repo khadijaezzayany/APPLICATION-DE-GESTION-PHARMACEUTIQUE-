@@ -5,6 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+
+
 
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/aside.css">
@@ -21,6 +24,14 @@
         include 'aside.php'
          ?>
             <h1>Ajouter Fournisseur</h1>
+
+            <?php if (isset($_SESSION['response'])) { ?>
+            <div class="alert alert-<?= $_SESSION['res_type']; ?> alert-dismissible text-center">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <b><?= $_SESSION['response']; ?></b>
+            </div>
+            <?php } unset($_SESSION['response']); ?>
+
             <form action="" method="post">
                 <input type="hidden" name='fourCode' value='<?= $fourCode; ?>'>
 
@@ -30,8 +41,8 @@
                 <input type=" text" name="fourVille" placeholder="Ville" value="<?= $fourVille; ?>" required>
                 <input type="text" name="fourTélé" placeholder="Téléphone" value="<?= $fourTélé; ?>" required>
 
-                <?php if($change==true) {?>
-                <input type="submit" name="change" value="Modifier">
+                <?php if($changefour==true) {?>
+                <input type="submit" name="changefour" value="Modifier">
                 <?php } else{?>
                 <input type="submit" name="ajout-fournisseur" value="Ajouter">
                 <?php } ?>

@@ -1,14 +1,15 @@
 <?php
-require 'config.php';
 session_start();
+require 'config.php';
+
 
  
 // // script for login :::::::::::::::::::::::::::::::::::::
    
     if(isset($_POST['valid'])){
 
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $username = filter_data($_POST['username']);
+        $password = filter_data($_POST['password']);
     
     
         $sth = $db->prepare("SELECT * FROM login WHERE username = :username ");
@@ -30,6 +31,16 @@ session_start();
         
 
     }
+// // // script for logout :::::::::::::::::::::::::::::::::::::
+    if(isset($_POST['logout'])){
+        // remove all session variables
+    session_unset(); 
+
+    // destroy the session 
+    session_destroy(); 
+        
+        
+    }
 
 
 
@@ -38,27 +49,31 @@ session_start();
      $data = trim($data);
      $data = htmlspecialchars($data);
      $data = stripcslashes($data);
+    return $data;
      
  }
 
 //MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 // function for  add new Médicament ::::::::::::::::::::::::::::::::::::
 
-        // $change = false;
+        $changemedicament = false;
         $medCode="";
-        $famiCode="";
         $medNom="";
+        $famiCode="";
         $medPrix="";
         $medQuan="";
+        $stockCode="";
 
 
        if(isset($_POST["ajout-medicament"])){
-        $medNom = $_POST['medNom'];
-        $famiCode = $_POST['famiCode'];
-        $medPrix = $_POST['medPrix'];
-        $medQuan = $_POST['medQuan'];
+        $medNom = filter_data($_POST['medNom']);
+        $famiCode = filter_data($_POST['famiCode']);
+        $medPrix = filter_data($_POST['medPrix']);
+        $medQuan =filter_data( $_POST['medQuan']);
+        $stockCode =filter_data( $_POST['stockCode']);
+        
 
-        $sql = "INSERT INTO medicament (medNom, famiCode, medPrix, medQuan) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO medicament (medNom, famiCode, medPrix, medQuan,stockCode) VALUES (?, ?, ?, ?,?)";
 
         $stmt = $db->prepare($sql);
         
@@ -66,6 +81,7 @@ session_start();
         $stmt->bindParam(2, $famiCode);
         $stmt->bindParam(3, $medPrix);
         $stmt->bindParam(4, $medQuan);
+        $stmt->bindParam(5, $stockCode);
         
         $stmt->execute();
         header('location: dashboard.php');
@@ -76,19 +92,14 @@ session_start();
        }
 
 
-
-
-
-
-
          // function for  Delete  médicament ::::::::::::::::::::::::::::::::::::
-            if(isset($_GET['deletee'])){
-                $medCode=$_GET['deletee'];
+            if(isset($_GET['deletemedicament'])){
+                $medCode=$_GET['deletemedicament'];
         
                 $stmt=$db->prepare('DELETE FROM medicament WHERE medCode= :medCode ')  ;
                 $stmt->bindParam(':medCode',$medCode);
                 $stmt->execute();
-                header('location: dashboard.php');
+                header('location:dashboard.php');
                 // $_SESSION['response']="Successfully Deleted!";
                 // $_SESSION['res_type']="danger";
             }
@@ -97,23 +108,25 @@ session_start();
 
          // function for  Edit  médicament ::::::::::::::::::::::::::::::::::::
 
-            if(isset($_GET['editt'])){
+            if(isset($_GET['editmedicament'])){
     
-                $id = $_GET['editt'];
+                $medCode = $_GET['editmedicament'];
             
-                // select the medicament a modifier selon son id et recuperer les details de ce post
-                $sth=$db->prepare('SELECT * FROM medicament INNER JOIN famille ON medicament.famiCode = famille.famiCode  WHERE medCode = :medCode ')  ;
+                // select the post a modifier selon son id et recuperer les details de ce post
+                $sth=$db->prepare('SELECT * FROM medicament INNER JOIN famille ON medicament.famiCode = famille.famiCode INNER JOIN stock ON medicament.stockCode = stock.stockCode');
                 $sth->bindParam(':medCode',$medCode);
                 $sth->execute();
                 while ($row = $sth->fetch())
                 {
                     $medCode=$row['medCode'];
-                    $medNom=$row['medNom'];
                     $famiCode=$row['famiCode'];
+                    $medNom=$row['medNom'];
                     $medPrix=$row['medPrix'];
                     $medQuan=$row['medQuan'];
+                    $stockCode=$row['stockCode'];
+                    
             
-                    $update = true;     // true ou false selon selon le choix : form vide  ou   recuperer les details de projet in input
+                    $changemedicament = true;     // true ou false selon selon le choix : form vide  ou   recuperer les details de projet in input
                     
                 }
             
@@ -121,6 +134,31 @@ session_start();
             
             
             }
+            
+            // if(isset($_POST['changemedicament'])){
+            //     $medCode=$_GET['editmedicament'];
+            //     $medNom = filter_data($_POST['medNom']);
+            //     $famiCode = filter_data($_POST['famiCode']);
+            //     $medQuan = filter_data($_POST['medQuan']);
+            //     $stockCode = filter_data($_POST['stockCode']);  
+                            
+            //                 $stmt = $db->prepare("UPDATE fournisseur SET fourNom = :fourNom, fourAdrs = :fourAdrs, fourVille = :fourVille ,fourTélé = :fourTele  WHERE fourCode=:fourCode");
+            //                 $stmt -> execute(array(
+            //                         'fourCode'=>"$fourCode",
+            //                         'fourNom'=>"$fourNom",
+            //                         'fourAdrs'=>"$fourAdrs",
+            //                         'fourVille'=>"$fourVille",
+            //                         'fourTele'=>"$fourTele",
+
+        
+                                 
+            //                 ));
+                               
+            //                     header("location: fournisseur.php");
+            
+            //      }
+            
+            
 
 
 
@@ -128,6 +166,43 @@ session_start();
 
 
 
+
+            
+                    //SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+                      // function for  add new Stock ::::::::::::::::::::::::::::::::::::
+                        if(isset($_POST["ajout-stock"])){
+                            
+                            $stockNom = filter_data($_POST['stockNom']);
+                            $stockQuan = filter_data($_POST['stockQuan']);
+                           
+                    
+                            $sql = "INSERT INTO stock (stockNom, stockQuan) VALUES (?, ?)";
+                    
+                            $stmt = $db->prepare($sql);
+                            
+                            $stmt->bindParam(1, $stockNom);
+                            $stmt->bindParam(2, $stockQuan);
+                           
+                            
+                            $stmt->execute();
+                            header('location:stock.php');
+                    
+                            // $_SESSION['response']="Successfully inserted to the databese";
+                            // $_SESSION['rest_type']="success";
+                           }
+
+
+                              // function for  Delete  Stock ::::::::::::::::::::::::::::::::::::
+                            if(isset($_GET['deletestock'])){
+                                $stockCode=$_GET['deletestock'];
+                        
+                                $stmt=$db->prepare('DELETE FROM stock WHERE stockCode= :stockCode ')  ;
+                                $stmt->bindParam(':stockCode',$stockCode);
+                                $stmt->execute();
+                                header('location: stock.php');
+                                // $_SESSION['response']="Successfully Deleted!";
+                                // $_SESSION['res_type']="danger";
+                            }
 
 
 
@@ -146,7 +221,7 @@ session_start();
     //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     // function for  add new Fournisseur ::::::::::::::::::::::::::::::::::::
 
-        $change = false;
+        $changefour = false;
         $fourCode="";
         $fourNom="";
         $fourAdrs="";
@@ -154,10 +229,10 @@ session_start();
         $fourTélé="";
 
        if(isset($_POST["ajout-fournisseur"])){
-        $fourNom = $_POST['fourNom'];
-        $fourAdrs = $_POST['fourAdrs'];
-        $fourVille = $_POST['fourVille'];
-        $fourTélé = $_POST['fourTélé'];
+        $fourNom = filter_data($_POST['fourNom']);
+        $fourAdrs = filter_data($_POST['fourAdrs']);
+        $fourVille = filter_data($_POST['fourVille']);
+        $fourTélé = filter_data($_POST['fourTélé']);
 
         $sql = "INSERT INTO fournisseur (fourNom, fourAdrs, fourVille, fourTélé) VALUES (?, ?, ?, ?)";
 
@@ -171,7 +246,6 @@ session_start();
         $stmt->execute();
         header('location:fournisseur.php');
 
-        // exit;
         // $_SESSION['response']="Successfully inserted to the databese";
         // $_SESSION['rest_type']="success";
        }
@@ -209,40 +283,19 @@ session_start();
                     $fourVille=$row['fourVille'];
                     $fourTélé=$row['fourTélé'];
 
-                    $change = true;     // true ou false selon selon le choix : form vide  ou   recuperer les details de fournisseur in input
+                    $changefour= true;     // true ou false selon selon le choix : form vide  ou   recuperer les details de fournisseur in input
         
     }
     
                 
 }
             // edit details of foutnisseur
-            // if(isset($_POST[change])){
-                
-                    // $fourCode = $_POST['fourCode'];
-                    // $fourNom = $_POST['fourNom'];
-                    // $fourAdrs = $_POST['fourAdrs'];
-                    // $fourVille = $_POST['fourVille'];
-                    // $fourTélé = $_POST['fourTélé'];
-
-            //         $sql = "UPDATE fournisseur SET fourNom=?, fourAdrs=?, fourVille=?, fourTélé=? WHERE fourCode=$fourCode";
-
-            //         $stmt = $db->prepare($sql);
-
-            //         $stmt->bindParam(1, $fourNom);
-            //         $stmt->bindParam(2, $fourAdrs);
-            //         $stmt->bindParam(3, $fourVille);
-            //         $stmt->bindParam(4, $fourTélé);
-
-            //         $stmt->execute();
-            //         header('location:fournisseur.php');
-            // }
-
-            if(isset($_POST['change'])){
+            if(isset($_POST['changefour'])){
                 $fourCode=$_GET['edit'];
-                $fourNom = $_POST['fourNom'];
-                $fourAdrs = $_POST['fourAdrs'];
-                $fourVille = $_POST['fourVille'];
-                $fourTele = $_POST['fourTélé'];  
+                $fourNom =filter_data ($_POST['fourNom']);
+                $fourAdrs =filter_data( $_POST['fourAdrs']);
+                $fourVille = filter_data($_POST['fourVille']);
+                $fourTele =filter_data ($_POST['fourTélé']);  
                             
                             $stmt = $db->prepare("UPDATE fournisseur SET fourNom = :fourNom, fourAdrs = :fourAdrs, fourVille = :fourVille ,fourTélé = :fourTele  WHERE fourCode=:fourCode");
                             $stmt -> execute(array(
@@ -256,11 +309,78 @@ session_start();
                                  
                             ));
                                
-                                // $err = "Your image path is updated successfuly";
                                 header("location: fournisseur.php");
             
                  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+                 // function for  add new Commande ::::::::::::::::::::::::::::::::::::
+    
+           if(isset($_POST["ajout-commande"])){
+            $medCode = filter_data($_POST['medCode']);
+            $commQuan = filter_data( $_POST['commQuan']);
+            $fourCode = filter_data($_POST['fourCode']);
+    
+            $sql = "INSERT INTO commande ( commDate,medCode, commQuan, fourCode) VALUES (now(), ?, ?, ?)";
+    
+            $stmt = $db->prepare($sql);
             
+            $stmt->bindParam(1, $medCode);
+            $stmt->bindParam(2, $commQuan);
+            $stmt->bindParam(3, $fourCode);
             
+            $stmt->execute();
+            header('location: commande.php');
+    
+
+        // $_SESSION['response']="Successfully inserted to the databese";
+        // $_SESSION['rest_type']="success";
+           }
+            
+
+
+
+
+
+                    //VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+                 // function for  add new vente ::::::::::::::::::::::::::::::::::::
+    
+                    if(isset($_POST["ajout-vente"])){
+                        $medCode = filter_data($_POST['medCode']);
+                        $venteQuan = filter_data($_POST['venteQuan']);
+                        $venteMontant = filter_data($_POST['venteMontant']);
+                
+                        $sql = "INSERT INTO vente ( venteDate,medCode, venteQuan, venteMontant) VALUES (now(), ?, ?, ?)";
+                
+                        $stmt = $db->prepare($sql);
+                        
+                        $stmt->bindParam(1, $medCode);
+                        $stmt->bindParam(2, $venteQuan);
+                        $stmt->bindParam(3, $venteMontant);
+                        
+                        $stmt->execute();
+                        header('location: vent.php');
+                
+            
+                    // $_SESSION['response']="Successfully inserted to the databese";
+                    // $_SESSION['rest_type']="success";
+                       }
+          
+
+
+                
+                      
 
     ?>

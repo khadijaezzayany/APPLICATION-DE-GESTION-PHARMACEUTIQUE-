@@ -1,3 +1,4 @@
+<?php require 'function.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,34 +20,54 @@
         include 'aside.php'
          ?>
             <h1>Ajouter Commande</h1>
-            <form action="function.php">
+            <form action="" method="post">
 
-                <input type="text" name="médCode" id="" placeholder="Code médicament ">
+                <input type="hidden" name='commCode' value='<?= $commCode; ?>'>
 
-                <input type="text" name="médLib" id="" placeholder="Libellé médicament ">
 
-                <!-- <input type="text" name="" id=""> -->
-                <!-- <select name="cars" id="cars">
-                    <option value="volvo">Volvo</option>
-                    <option value="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                </select> -->
 
-                <input type="text" name="fourCode" id="" placeholder="Code fournisseur ">
+                <select name="medCode" required>
+                    <option value="">--Médicament <?= $medCode; ?></option>
+                    <!--------php --------------------->
+                    <?php
 
-                <input type="text" name="stockNum" id="" placeholder=" Numéro de stock">
+                    // get category from db
+                    $sth=$db->query('SELECT *  FROM medicament ');
+                    while ($row = $sth->fetch())
+                {
+                    ?>
+                    <option value="<?= $row['medCode']; ?>"><?= $row['medNom']; ?></option>
+                    <?php
+                }
 
-                <input type="text" name="quantité" id="" placeholder=" Quantité ">
+                    ?>
+                    <!--------php --------------------->
 
-                <input type="text" name="commNum" id="" placeholder=" Numéro de commande ">
+                    <input type="text" name="commQuan" id="" placeholder="Qauntité " required>
 
-                <input type="text" name="commDate" id="" placeholder="La date ">
 
-                <input type="text" name="commPrix" id="" placeholder=" Prix ">
 
-                <input type="submit" name="commandajout" id="" value="Ajouter">
-                <br>
+                    <select name="fourCode" required>
+                        <option value="">--Fournisseur <?= $fourCode; ?></option>
+                        <!--------php --------------------->
+                        <?php
+
+                    // get category from db
+                    $sth=$db->query('SELECT *  FROM fournisseur ');
+                    while ($row = $sth->fetch())
+                {
+                    ?>
+                        <option value="<?= $row['fourCode']; ?>"><?= $row['fourNom']; ?></option>
+                        <?php
+                }
+
+                    ?>
+                        <!--------php --------------------->
+
+
+
+                        <input type="submit" name="ajout-commande" id="" value="Ajouter">
+                        <br>
             </form>
             <br>
             <h1>Liste des commandes</h1>
@@ -55,26 +76,29 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Numéro de stock </th>
-                        <th>Quantité</th>
-                        <th>Code médicament</th>
-                        <th>Quantité médicament</th>
-                        <th>Action</th>
+                        <th>Numéro de commande </th>
+                        <th>La date</th>
+                        <th> Médicament</th>
+                        <th>Quantité </th>
+                        <th>Fournisseur </th>
                     </tr>
                 </thead>
                 <tbody>
+                    <?php
+                $stmt=$db->query('SELECT * FROM commande INNER JOIN medicament ON commande.medCode = medicament.medCode  INNER JOIN fournisseur ON commande.fourCode = fournisseur.fourCode ');
+                while ($row = $stmt->fetch())
+                    {
+                ?>
                     <tr>
-                        <td>123</td>
-                        <td>1</td>
-                        <td>123</td>
-                        <td>33</td>
-                        <td>
+                        <td><?= $row['commCode']; ?></td>
+                        <td><?= $row['commDate']; ?></td>
+                        <td><?= $row['medNom']; ?></td>
+                        <td><?= $row['commQuan']; ?></td>
+                        <td><?= $row['fourNom']; ?></td>
 
-                            <a href="#" id="edit">Edit</a> |
-                            <a href="#" id="delete">Delete</a>
-                        </td>
 
                     </tr>
+                    <?php }?>
                 </tbody>
             </table>
 

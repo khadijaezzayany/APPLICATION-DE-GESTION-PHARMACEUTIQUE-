@@ -8,9 +8,10 @@
   },
   "devDependencies": {},
   "scripts": {
-    "sass": "node-sass -w scss/aside.scss dashboard.scss login.scss style.scss -o css ",
+    "sass": "node-sass -w scss/dashboard.scss aside.scss login.scss style.scss -o css ",
     "concat": "concat -o css/concat.css  css/style.css",
-    "compress": "node-sass css/prefix.css css/style.css  --output-style compressed"  },
+    "compress": "node-sass css/prefix.css css/style.css  --output-style compressed"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/khadijaezzayany/Pharmacy-projet.git"

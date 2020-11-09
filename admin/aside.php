@@ -21,7 +21,6 @@
             <hr>
             <li><a href="vent.php">Ventes</a></li>
             <hr>
-            <li><a href="#">Logout</a></li>
         </ul>
     </aside>
 </body>
