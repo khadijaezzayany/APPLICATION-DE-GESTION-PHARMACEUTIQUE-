@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/dashboard.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="../css/aside.css">
     <title>Document</title>
 </head>
@@ -20,8 +19,7 @@
             <?php
         include 'aside.php'
          ?>
-            <form action="" method="post"><input type="submit" name="logout" id="">
-            </form>
+
 
             <h1>Ajouter médicament</h1>
             <form action="" method="post">
@@ -54,7 +52,7 @@
                     <input type="text" name="medQuan" id="" value="<?= $medQuan; ?>" placeholder="Quantité médicament">
 
                     <select name="stockCode" required>
-                        <option value="">-- Stock</option>
+                        <option value="">-- Stock <?= $stockCode; ?></option>
                         <!--------php --------------------->
                         <?php
 
@@ -70,7 +68,11 @@
                     ?>
                         <!-- ------php ------------------- -->
 
-                        <input type="submit" name="ajout-medicament" id="" value="Ajouter">
+                        <?php if($changemedicament==true) {?>
+                        <input type="submit" name="changemedicament" value="Modifier">
+                        <?php } else{?>
+                        <input type="submit" name="ajout-medicament" value="Ajouter">
+                        <?php } ?>
                         <br>
             </form>
             <br>
@@ -101,7 +103,7 @@
                         <td><?= $row['medQuan']; ?></td>
                         <td><?= $row['stockNom']; ?></td>
                         <td>
-                            <a href="dashboard.php?editmedicament=<?= $row['medCode'];?>" id="edit">Modifier</a> |
+                            <a href="dashboard.php?editmedicament=<?= $row['medCode'];?>" id="edit">Modifier</a>|
                             <a id="delete" href="dashboard.php?deletemedicament=<?= $row['medCode'] ;?>"
                                 onclick="return confirm ('Do you want delete this fournisseur?');">Supprimer</a>
                         </td>

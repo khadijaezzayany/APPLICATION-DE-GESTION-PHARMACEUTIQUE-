@@ -21,6 +21,8 @@
             <hr>
             <li><a href="vent.php">Ventes</a></li>
             <hr>
+            <form action="" method="post"><input type="submit" name="logout" value="Logout" id="logout">
+            </form>
         </ul>
     </aside>
 </body>

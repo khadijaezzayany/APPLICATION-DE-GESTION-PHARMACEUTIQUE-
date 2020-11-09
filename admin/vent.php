@@ -19,6 +19,8 @@
             <?php
         include 'aside.php'
          ?>
+
+
             <h1>Ajouter Vente</h1>
             <form action="" method="post">
 

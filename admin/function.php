@@ -2,7 +2,14 @@
 session_start();
 require 'config.php';
 
-
+// function for filter input ::::::::::::::::::::::::::::::::::::
+    function filter_data($data){
+        $data = trim($data);
+        $data = htmlspecialchars($data);
+        $data = stripcslashes($data);
+       return $data;
+        
+    }
  
 // // script for login :::::::::::::::::::::::::::::::::::::
    
@@ -36,22 +43,15 @@ require 'config.php';
         // remove all session variables
     session_unset(); 
 
-    // destroy the session 
+       // destroy the session 
     session_destroy(); 
         
-        
+    header("LOCATION:../index.php"); 
     }
 
 
 
-// function for filter input ::::::::::::::::::::::::::::::::::::
- function filter_data($data){
-     $data = trim($data);
-     $data = htmlspecialchars($data);
-     $data = stripcslashes($data);
-    return $data;
-     
- }
+
 
 //MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 // function for  add new Médicament ::::::::::::::::::::::::::::::::::::
@@ -86,9 +86,7 @@ require 'config.php';
         $stmt->execute();
         header('location: dashboard.php');
 
-        // exit;
-        // $_SESSION['response']="Successfully inserted to the databese";
-        // $_SESSION['rest_type']="success";
+      
        }
 
 
@@ -100,64 +98,64 @@ require 'config.php';
                 $stmt->bindParam(':medCode',$medCode);
                 $stmt->execute();
                 header('location:dashboard.php');
-                // $_SESSION['response']="Successfully Deleted!";
-                // $_SESSION['res_type']="danger";
+              
             }
 
 
 
-         // function for  Edit  médicament ::::::::::::::::::::::::::::::::::::
+        //  // function for  Edit  médicament ::::::::::::::::::::::::::::::::::::
 
+        
             if(isset($_GET['editmedicament'])){
-    
-                $medCode = $_GET['editmedicament'];
-            
-                // select the post a modifier selon son id et recuperer les details de ce post
-                $sth=$db->prepare('SELECT * FROM medicament INNER JOIN famille ON medicament.famiCode = famille.famiCode INNER JOIN stock ON medicament.stockCode = stock.stockCode');
+                
+                $medCode=$_GET['editmedicament'];
+                // select the fournisseur a modifier selon son id et recuperer les details de ce post
+                $sth=$db->prepare('SELECT * FROM medicament I WHERE medCode = :medCode ')  ;
                 $sth->bindParam(':medCode',$medCode);
                 $sth->execute();
                 while ($row = $sth->fetch())
                 {
                     $medCode=$row['medCode'];
-                    $famiCode=$row['famiCode'];
                     $medNom=$row['medNom'];
+                    $famiCode=$row['famiCode'];
                     $medPrix=$row['medPrix'];
                     $medQuan=$row['medQuan'];
                     $stockCode=$row['stockCode'];
-                    
-            
-                    $changemedicament = true;     // true ou false selon selon le choix : form vide  ou   recuperer les details de projet in input
-                    
-                }
-            
+
+                    $changemedicament= true;     // true ou false selon selon le choix : form vide  ou   recuperer les details de fournisseur in input
+        
+    }
+    
                 
-            
-            
-            }
-            
-            // if(isset($_POST['changemedicament'])){
-            //     $medCode=$_GET['editmedicament'];
-            //     $medNom = filter_data($_POST['medNom']);
-            //     $famiCode = filter_data($_POST['famiCode']);
-            //     $medQuan = filter_data($_POST['medQuan']);
-            //     $stockCode = filter_data($_POST['stockCode']);  
-                            
-            //                 $stmt = $db->prepare("UPDATE fournisseur SET fourNom = :fourNom, fourAdrs = :fourAdrs, fourVille = :fourVille ,fourTélé = :fourTele  WHERE fourCode=:fourCode");
-            //                 $stmt -> execute(array(
-            //                         'fourCode'=>"$fourCode",
-            //                         'fourNom'=>"$fourNom",
-            //                         'fourAdrs'=>"$fourAdrs",
-            //                         'fourVille'=>"$fourVille",
-            //                         'fourTele'=>"$fourTele",
+}
+
+
+
+            if(isset($_POST['changemedicament'])){
+                $medCode=$_GET['editmedicament'];
+                $medNom = filter_data($_POST['medNom']);
+                $famiCode =$_POST['famiCode'];
+                $medPrix = filter_data($_POST['medPrix']);
+                $medQuan =filter_data( $_POST['medQuan']);
+                $stockCode =$_POST['stockCode'];
+                            $stmt = $db->prepare("UPDATE medicament SET medNom = :medNom, famiCode = :famiCode, medPrix = :medPrix ,medQuan = :medQuan stockCode = :stockCode  WHERE medCode=:medCode");
+                            $stmt -> execute(array(
+                                    'medCode'=>"$medCode",
+                                    'medNom'=>"$medNom",
+                                    'famiCode'=>"$famiCode",
+                                    'medPrix'=>"$medPrix",
+                                    'medQuan'=>"$medQuan",
+                                    'stockCode'=>"$stockCode",
 
         
                                  
-            //                 ));
+                            ));
                                
-            //                     header("location: fournisseur.php");
+                                header("location: dashboard.php");
             
-            //      }
+                 }
             
+  
             
 
 
@@ -187,8 +185,6 @@ require 'config.php';
                             $stmt->execute();
                             header('location:stock.php');
                     
-                            // $_SESSION['response']="Successfully inserted to the databese";
-                            // $_SESSION['rest_type']="success";
                            }
 
 
@@ -200,8 +196,7 @@ require 'config.php';
                                 $stmt->bindParam(':stockCode',$stockCode);
                                 $stmt->execute();
                                 header('location: stock.php');
-                                // $_SESSION['response']="Successfully Deleted!";
-                                // $_SESSION['res_type']="danger";
+                            
                             }
 
 
@@ -246,8 +241,7 @@ require 'config.php';
         $stmt->execute();
         header('location:fournisseur.php');
 
-        // $_SESSION['response']="Successfully inserted to the databese";
-        // $_SESSION['rest_type']="success";
+      
        }
 
 
@@ -260,8 +254,7 @@ require 'config.php';
                 $stmt->bindParam(':fourCode',$fourCode);
                 $stmt->execute();
                 header('location:fournisseur.php');
-                // $_SESSION['response']="Successfully Deleted!";
-                // $_SESSION['res_type']="danger";
+                
             }
 
     
@@ -345,8 +338,6 @@ require 'config.php';
             header('location: commande.php');
     
 
-        // $_SESSION['response']="Successfully inserted to the databese";
-        // $_SESSION['rest_type']="success";
            }
             
 
@@ -374,8 +365,6 @@ require 'config.php';
                         header('location: vent.php');
                 
             
-                    // $_SESSION['response']="Successfully inserted to the databese";
-                    // $_SESSION['rest_type']="success";
                        }
           
 

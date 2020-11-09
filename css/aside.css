@@ -25,3 +25,8 @@ aside {
     height: 1px;
     width: 152%;
     margin-left: -40px; }
+  aside #logout {
+    border: none;
+    background: none;
+    font-size: 30px;
+    color: white; }
