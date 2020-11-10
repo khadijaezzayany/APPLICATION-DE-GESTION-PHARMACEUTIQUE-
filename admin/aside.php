@@ -11,11 +11,11 @@
 <body>
     <aside>
         <ul>
-            <li><a href="dashboard.php">médicaments</a></li>
+            <li><a href="dashboard.php">Fournisseurs</a></li>
             <hr>
             <li><a href="stock.php">Stocks</a></li>
             <hr>
-            <li><a href="fournisseur.php">Fournisseurs</a></li>
+            <li><a href="fournisseur.php">Médicaments</a></li>
             <hr>
             <li><a href="commande.php">Commandes</a></li>
             <hr>

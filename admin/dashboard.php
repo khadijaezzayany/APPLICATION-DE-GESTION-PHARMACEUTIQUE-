@@ -5,6 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+
+
+
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/aside.css">
     <title>Document</title>
@@ -19,98 +23,71 @@
             <?php
         include 'aside.php'
          ?>
+            <h1>Ajouter Fournisseur</h1>
 
+            <?php if (isset($_SESSION['response'])) { ?>
+            <div class="alert alert-<?= $_SESSION['res_type']; ?> alert-dismissible text-center">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <b><?= $_SESSION['response']; ?></b>
+            </div>
+            <?php } unset($_SESSION['response']); ?>
 
-            <h1>Ajouter médicament</h1>
             <form action="" method="post">
-
-                <input type="hidden" name='medCode' value="<?= $medCode; ?>">
-
-
-                <input type="text" name="medNom" id="" value="<?= $medNom; ?>" placeholder="Nom médicament">
+                <input type="hidden" name='fourCode' value='<?= $fourCode; ?>'>
 
 
-                <select name="famiCode" required>
-                    <option value="">-- Famille <?= $famiCode; ?></option>
-                    <!--------php --------------------->
-                    <?php
+                <input type="text" name="fourNom" placeholder="Nom" value="<?= $fourNom; ?>" required>
+                <input type="text" name="fourAdrs" placeholder="Adresse" value="<?= $fourAdrs; ?>" required>
+                <input type=" text" name="fourVille" placeholder="Ville" value="<?= $fourVille; ?>" required>
+                <input type="text" name="fourTélé" placeholder="Téléphone" value="<?= $fourTélé; ?>" required>
 
-                    // get famille from db
-                    $sth=$db->query('SELECT *  FROM famille ');
-                    while ($row = $sth->fetch())
-                {
-                    ?>
-                    <option value="<?= $row['famiCode']; ?>"><?= $row['famiNom']; ?></option>
-                    <?php
-                }
+                <?php if($changefour==true) {?>
+                <input type="submit" name="changefour" value="Modifier">
+                <?php } else{?>
+                <input type="submit" name="ajout-fournisseur" value="Ajouter">
+                <?php } ?>
 
-                    ?>
-                    <!--------php --------------------->
 
-                    <input type="text" name="medPrix" id="" value="<?= $medPrix; ?>" placeholder=" Prix DH">
 
-                    <input type="text" name="medQuan" id="" value="<?= $medQuan; ?>" placeholder="Quantité médicament">
 
-                    <select name="stockCode" required>
-                        <option value="">-- Stock <?= $stockCode; ?></option>
-                        <!--------php --------------------->
-                        <?php
 
-                    // get stock from db
-                    $sth=$db->query('SELECT *  FROM stock ');
-                    while ($row = $sth->fetch())
-                {
-                    ?>
-                        <option value="<?= $row['stockCode']; ?>"><?= $row['stockNom']; ?></option>
-                        <?php
-                }
-
-                    ?>
-                        <!-- ------php ------------------- -->
-
-                        <?php if($changemedicament==true) {?>
-                        <input type="submit" name="changemedicament" value="Modifier">
-                        <?php } else{?>
-                        <input type="submit" name="ajout-medicament" value="Ajouter">
-                        <?php } ?>
-                        <br>
             </form>
+
             <br>
-            <h1>Liste médicaments</h1>
+            <h1>Liste Fournisseurs</h1>
 
 
             <table>
                 <thead>
                     <tr>
-                        <th>Nom </th>
-                        <th>Famille </th>
-                        <th>Prix DH</th>
-                        <th> Quantité</th>
-                        <th> stock</th>
+                        <th>Code Fournisseur </th>
+                        <th>Nom</th>
+                        <th>Adresse</th>
+                        <th>Ville</th>
+                        <th>Télèphone</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- <?php
-                $stmt=$db->query('SELECT * FROM medicament INNER JOIN famille ON medicament.famiCode = famille.famiCode INNER JOIN stock ON medicament.stockCode = stock.stockCode');
+                    <?php
+                $stmt=$db->query('SELECT * FROM fournisseur');
                 while ($row = $stmt->fetch())
                     {
-                ?> -->
+                ?>
                     <tr>
-                        <td><?= $row['medNom']; ?></td>
-                        <td><?= $row['famiNom']; ?></td>
-                        <td><?= $row['medPrix']; ?></td>
-                        <td><?= $row['medQuan']; ?></td>
-                        <td><?= $row['stockNom']; ?></td>
+                        <td><?= $row['fourCode']; ?></td>
+                        <td><?= $row['fourNom']; ?></td>
+                        <td><?= $row['fourAdrs']; ?></td>
+                        <td><?= $row['fourVille']; ?></td>
+                        <td><?= $row['fourTélé']; ?></td>
                         <td>
-                            <a href="dashboard.php?editmedicament=<?= $row['medCode'];?>" id="edit">Modifier</a>|
-                            <a id="delete" href="dashboard.php?deletemedicament=<?= $row['medCode'] ;?>"
+                            <a href="dashboard.php?edit=<?= $row['fourCode'];?>" id="edit">Modifier</a> |
+                            <a id="delete" href="dashboard.php?delete=<?= $row['fourCode'] ;?>"
                                 onclick="return confirm ('Do you want delete this fournisseur?');">Supprimer</a>
                         </td>
 
                     </tr>
-                    <!-- <?php }?> -->
-
+                    <?php }?>
                 </tbody>
             </table>
 
